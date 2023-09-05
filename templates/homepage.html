@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="index.css"/>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .container {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: rgb(255, 240, 222);
+        }
+
+        #file-input {
+            display: none;
+        }
+
+        .preview {
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            width: 100%;
+            max-width: 350px;
+            margin: auto;
+            background-color: rgb(255, 255, 255);
+            box-shadow: 0 0 20px rgba(170, 170, 170, 0.2);
+        }
+
+        img {
+            width: 100%;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: 600;
+            cursor: pointer;
+            color: #fff;
+            border-radius: 8px;
+            padding: 10px 20px;
+            background-color: rgb(101, 101, 255);
+        }
+        #upload{
+            background-color: rgb(101, 101, 255);
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 12px 30px;
+            text-align: center;
+            text-decoration: none;
+/*            display: inline-block;*/
+            font-size: 16px;
+            border-radius: 8px;
+        }
+        .header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+        }
+        .hidden {
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1>Image Upload</h1>
+</div>
+<div class="container">
+    <form method="post" action="/upload" enctype="multipart/form-data">
+        <div class="preview">
+            <img id="img-preview"/>
+
+            <label for="file-input">Upload Image</label>
+            <input accept="image/*" type="file" id="file-input" name="image"/><br><br>
+            <button class="hidden" type="submit" id="upload" name="upload">Make Color</button>
+        </div>
+    </form>
+</div>
+
+<script>
+
+    const input = document.getElementById('file-input');
+    const image = document.getElementById('img-preview');
+
+    input.addEventListener('change', (e) => {
+        if (e.target.files.length) {
+            const src = URL.createObjectURL(e.target.files[0]);
+            image.src = src;
+        }
+    });
+    document.getElementById('file-input').addEventListener('change', function() {
+    var previewImage = document.getElementById('img-preview');
+    var uploadButton = document.getElementById('upload');
+
+    if (this.files && this.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+            previewImage.src = e.target.result;
+            uploadButton.classList.remove('hidden');
+        };
+
+        reader.readAsDataURL(this.files[0]);
+    } else {
+        previewImage.src = '';
+        uploadButton.classList.add('hidden');
+    }
+});
+</script>
+</body>
+</html>
